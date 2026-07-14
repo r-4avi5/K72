@@ -5,7 +5,7 @@ import Projects from './pages/Projects'
 import Agence from './pages/Agence'
 
 function App() {
-  return (
+return (
     <div>
     <Routes>
       <Route path='/' element ={<Home/>}/>
@@ -15,5 +15,4 @@ function App() {
     </div>
   )
 }
-
 export default App

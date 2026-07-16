@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { NavbarContext } from '../../context/NavContext'
 
 const FullScreenNav = () => {
@@ -9,13 +9,10 @@ const FullScreenNav = () => {
 
     const [navOpen, setNavOpen] = useContext(NavbarContext)
 
-
-
-
-
     function gsapAnimation() {
         const tl = gsap.timeline()
-        tl.to('.fullscreennav', {
+
+        tl.set(fullScreenRef.current, {
             display: 'block'
         })
         tl.to('.stairing', {
@@ -36,8 +33,10 @@ const FullScreenNav = () => {
             opacity: 1
         })
     }
+
     function gsapAnimationReverse() {
         const tl = gsap.timeline()
+
         tl.to('.link', {
             opacity: 0,
             rotateX: 90,
@@ -54,25 +53,53 @@ const FullScreenNav = () => {
         tl.to('.navlink', {
             opacity: 0
         })
-        tl.to('.fullscreennav', {
-            display: 'none',
+        tl.set(fullScreenRef.current, {
+            display: 'none'
         })
     }
 
-
-    useGSAP(function () {
+    useGSAP(() => {
         if (navOpen) {
-
             gsapAnimation()
         } else {
-
             gsapAnimationReverse()
-
         }
-    }, [navOpen])
+    }, { dependencies: [navOpen], scope: fullScreenRef })
+
+    function handleLinkEnter(e) {
+        const linkEl = e.currentTarget
+        const moveLink = linkEl.querySelector('.moveLink')
+        const moveX = linkEl.querySelectorAll('.moveX')
+
+        gsap.to(moveLink, {
+            opacity: 1,
+            duration: 0.3,
+            overwrite: true
+        })
+        gsap.to(moveX, {
+            xPercent: -50,
+            repeat: -1,
+            ease: 'linear',
+            duration: 8,
+            overwrite: true
+        })
+    }
+
+    function handleLinkLeave(e) {
+        const linkEl = e.currentTarget
+        const moveLink = linkEl.querySelector('.moveLink')
+        const moveX = linkEl.querySelectorAll('.moveX')
+
+        gsap.killTweensOf(moveX)
+        gsap.to(moveLink, {
+            opacity: 0,
+            duration: 0.3,
+            overwrite: true
+        })
+    }
 
     return (
-        <div ref={fullScreenRef} id='fullscreennav' className='fullscreennav text-white overflow-hidden h-screen w-full z-50 absolute'>
+        <div ref={fullScreenRef} id='fullscreennav' className='fullscreennav hidden text-white overflow-hidden h-screen w-full z-50 absolute'>
             <div className='h-screen w-full fixed'>
                 <div className='h-full w-full flex'>
                     <div className='stairing h-full w-1/5 bg-black'></div>
@@ -99,10 +126,10 @@ const FullScreenNav = () => {
 
                     </div>
                 </div>
-                <div className=' py-36'>
-                    <div className='link origin-top relative border-t-1 border-white'>
-                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Projets</h1>
-                        <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
+                <div className=' py-1'>
+                    <div onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave} className='link origin-top relative border-t-1 border-white overflow-hidden'>
+                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] pt-3 uppercase'>Projets</h1>
+                        <div className='moveLink absolute inset-0 h-full w-full text-black flex items-center opacity-0 pointer-events-none bg-[#D3FD50]'>
                             <div className='moveX flex items-center'>
                                 <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Pour Tout voir</h2>
                                 <img className='lg:h-36 h-14 rounded-full shrink-0 lg:w-96 w-32 object-cover' src="https://k72.ca/uploads/caseStudies/WIDESCAPE/WS---K72.ca---MenuThumbnail-640x290.jpg" alt="" />
@@ -118,9 +145,9 @@ const FullScreenNav = () => {
                         </div>
 
                     </div>
-                    <div className='link origin-top relative border-t-1 border-white'>
-                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Agence</h1>
-                        <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
+                    <div onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave} className='link origin-top relative border-t-1 border-white overflow-hidden'>
+                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] pt-3 uppercase'>Agence</h1>
+                        <div className='moveLink absolute inset-0 h-full w-full text-black flex items-center opacity-0 pointer-events-none bg-[#D3FD50]'>
                             <div className='moveX flex items-center'>
                                 <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Pour Tout voir</h2>
                                 <img className='lg:h-36 h-14 rounded-full shrink-0 lg:w-96 w-32 object-cover' src="https://k72.ca/uploads/caseStudies/WIDESCAPE/WS---K72.ca---MenuThumbnail-640x290.jpg" alt="" />
@@ -136,9 +163,9 @@ const FullScreenNav = () => {
                         </div>
 
                     </div>
-                    <div className='link origin-top relative border-t-1 border-white'>
-                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Contact</h1>
-                        <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
+                    <div onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave} className='link origin-top relative border-t-1 border-white overflow-hidden'>
+                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] pt-3 uppercase'>Contact</h1>
+                        <div className='moveLink absolute inset-0 h-full w-full text-black flex items-center opacity-0 pointer-events-none bg-[#D3FD50]'>
                             <div className='moveX flex items-center'>
                                 <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Pour Tout voir</h2>
                                 <img className='lg:h-36 h-14 rounded-full shrink-0 lg:w-96 w-32 object-cover' src="https://k72.ca/uploads/caseStudies/WIDESCAPE/WS---K72.ca---MenuThumbnail-640x290.jpg" alt="" />
@@ -154,9 +181,9 @@ const FullScreenNav = () => {
                         </div>
 
                     </div>
-                    <div className='link origin-top relative border-y-1 border-white'>
-                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Blogs</h1>
-                        <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
+                    <div onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave} className='link origin-top relative border-y-1 border-white overflow-hidden'>
+                        <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] pt-3 uppercase'>Blogs</h1>
+                        <div className='moveLink absolute inset-0 h-full w-full text-black flex items-center opacity-0 pointer-events-none bg-[#D3FD50]'>
                             <div className='moveX flex items-center'>
                                 <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Pour Tout voir</h2>
                                 <img className='lg:h-36 h-14 rounded-full shrink-0 lg:w-96 w-32 object-cover' src="https://k72.ca/uploads/caseStudies/WIDESCAPE/WS---K72.ca---MenuThumbnail-640x290.jpg" alt="" />

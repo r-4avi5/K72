@@ -24,9 +24,9 @@ function Projects() {
     gsap.from('.hero',{
       height:'50px',
       stagger:{
-        amount:0.5
+        amount:0.3
       },
-      scrollTrigger:{
+      scrollTrigger:{ 
         trigger:'.roll',
         start:'top 100%',
         end:'top -150%',
@@ -36,13 +36,13 @@ function Projects() {
   })
 
   return (
-    <div className='p-4'>
+    <div className='lg:p-4 p-2'>
       <div className='pt-[35vh]'>
-            <h2 className='font-[font2] text-[14vw] tracking-tighter uppercase'>Projets</h2>
+            <h2 className='font-[font2] lg:text-[14vw] text-8xl tracking-tighter uppercase'>Projets</h2>
         </div>
-        <div className='-mt-22 roll'>
+        <div className='-lg:mt-22 roll'>
           {projects.map(function(elem,idx){
-            return  <div key={idx} className='hero w-full h-[500px] mb-4 flex gap-4'>
+            return  <div key={idx} className='hero w-full lg:h-[500px] mb-4 flex lg:flex-row flex-col gap-2 lg:gap-4'>
             <Projectcard image1={elem.image1} image2={elem.image2}/>
             </div>
           })}

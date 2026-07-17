@@ -34,10 +34,9 @@ function Agence() {
     scrollTrigger:{
     trigger:imageDivRef.current,
     start:'top 22%',
-    end:'top -140%',
+   end: () => '+=' + imageDivRef.current.closest('.section1').offsetHeight,
     pin: true,
     pinSpacing:true,
-    pinReparent:true,
     pinType:'transform',
     scrub: 1,
     anticipatePin:1,
@@ -60,15 +59,15 @@ function Agence() {
   return (
    <div>
      <div className='section1 relative py-1'>
-      <div ref={imageDivRef} className='absolute overflow-hidden h-[20vw] w-[14.8vw] rounded-2xl top-[10vw] left-[30vw]'>
+      <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[20vw] h-[30vw] lg:w-[14.8vw] w-[25vw] lg:rounded-2xl rounded-xl lg:top-[10vw] top-[4vw] lg:left-[30vw] left-[30vw]'>
         <img  ref={imageRef} className='h-full w-full object-cover' src="https://k72.ca/images/teamMembers/Carl_480x640.jpg?w=480&h=640&fit=crop&s=f0a84706bc91a6f505e8ad35f520f0b7" alt="" />
       </div>
       <div className='font-[font2] relative'>
-      <div className='mt-[55vh]'>
+      <div className='lg:mt-[55vh] mt-[30vh]'>
         <h1 className='text-[19vw] text-center uppercase leading-[17vw]'>Soixan7e <br /> Douze</h1>
       </div>
-      <div className='pl-[40%] indent-30'>
-        <p className='text-6xl'>Notre curiosité nourrit notre créativité. On reste humbles et on dit non aux gros egos, même le vôtre. Une marque est vivante. Elle a des valeurs, une personnalité, une histoire. Si on oublie ça, on peut faire de bons chiffres à court terme, mais on la tue à long terme. C’est pour ça qu’on s’engage à donner de la perspective, pour bâtir des marques influentes.</p>
+      <div className='lg:pl-[40%] indent-30 mt-3 pl-3'>
+        <p className='lg:text-5xl leading-tight text-xl'>Notre curiosité nourrit notre créativité. On reste humbles et on dit non aux gros egos, même le vôtre. Une marque est vivante. Elle a des valeurs, une personnalité, une histoire. Si on oublie ça, on peut faire de bons chiffres à court terme, mais on la tue à long terme. C’est pour ça qu’on s’engage à donner de la perspective, pour bâtir des marques influentes.</p>
       </div>
     </div>
     </div>

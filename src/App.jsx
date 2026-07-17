@@ -11,7 +11,7 @@ return (
     <div className='overflow-x-hidden'>
       <Navbar/>
       <FullScreenNav/>
-    <Routes>
+      <Routes>
       <Route path='/' element ={<Home/>}/>
       <Route path='/agence' element ={<Agence/>}/>
       <Route path='/projects' element ={<Projects/>}/>
